@@ -173,6 +173,39 @@ namespace _25._05._2023HW
             Console.WriteLine("Расшифрованное сообщение: {0}", s.Decrypt(encryptedText, secretKey));
 
         }
+        static void task5()
+        {
+            string str = Console.ReadLine();
+            string[] sum = str.Split('+');
+            string[] min = str.Split('-');
+            string[] mult = str.Split('*');
+            string[] del = str.Split('/');
+
+            if (sum.Length == 2)
+            {
+                int a = Convert.ToInt32(sum[0]);
+                int b = Convert.ToInt32(sum[1]);
+                Console.WriteLine($"{str} = {a + b}");
+            }
+            if (min.Length == 2)
+            {
+                int a = Convert.ToInt32(min[0]);
+                int b = Convert.ToInt32(min[1]);
+                Console.WriteLine($"{str} = {a - b}");
+            }
+            if (mult.Length == 2)
+            {
+                int a = Convert.ToInt32(mult[0]);
+                int b = Convert.ToInt32(mult[1]);
+                Console.WriteLine($"{str} = {a * b}");
+            }
+            if (del.Length == 2)
+            {
+                int a = Convert.ToInt32(del[0]);
+                int b = Convert.ToInt32(del[1]);
+                Console.WriteLine($"{str} = {a / b}");
+            }
+        }
         static void Main(string[] args)
         {
             task2();
