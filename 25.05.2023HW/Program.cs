@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,6 +37,78 @@ namespace _25._05._2023HW
 
         public string Decrypt(string encryptedMessage, int key)
             => CodeEncode(encryptedMessage, -key);
+    }
+
+    //for task4
+    class four
+    {
+        void Show(int[,] arr)
+        {
+            for(int i = 0; i < arr.GetLength(0); i++)
+            {
+                for(int j=0;j < arr.GetLength(1); j++)
+                {
+                    Console.Write(arr[i,j] + " ");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+        }
+        public void MultNum(int[,] arr)
+        {
+            Show(arr);
+            Console.WriteLine("Введите число, на которое нужно умножить ");
+            int num = int.Parse(Console.ReadLine());
+            for(int i = 0; i < 5; i++)
+            {
+                for(int j = 0; j < 5; j++)
+                {
+                    arr[i, j] = arr[i, j] * num;
+                }
+            }
+            Show(arr);
+        }
+        public void Sum(int[,] arr, int[,] arr1) 
+        {
+            Console.WriteLine("Первая матрица");
+            Show(arr);
+            Console.WriteLine("Вторая матрица");
+            Show(arr1);
+            int[,] newArr = new int[5, 10];
+            for(int i = 0; i < 5; i++)
+            {
+                int k = 0;
+                for( int j = 0;j < 10; j++)
+                {
+                    if (j < 5)
+                    {
+                        newArr[i, j] = arr[i, j];
+                    }
+                    else
+                    {
+                        newArr[i,j] = arr1[i, k];
+                        k++;
+                    }
+                }
+            }
+            Show(newArr);
+        }
+        public void MultMat(int[,] arr, int[,] arr1)
+        {
+            Console.WriteLine("Первая матрица");
+            Show(arr);
+            Console.WriteLine("Вторая матрица");
+            Show(arr1);
+            int[,] newArr = new int[5, 5];
+            for(int i = 0; i < 5; i++)
+            {
+                for( int j = 0;j<5; j++)
+                {
+                    newArr[i,j] = arr[i, j] * arr1[i,j];
+                }
+            }
+            Show(newArr);
+        }
     }
 
     internal class Program
@@ -173,6 +246,38 @@ namespace _25._05._2023HW
             Console.WriteLine("Расшифрованное сообщение: {0}", s.Decrypt(encryptedText, secretKey));
 
         }
+        static void task4()
+        {
+            Random rnd = new Random();
+            int[,] arr = new int[5, 5];
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 5; j++)
+                {
+                    arr[i, j] = rnd.Next(10);
+                }
+            }
+            four four = new four();
+            Console.WriteLine("1)Умножение матрицы на число;\r\n2)Сложение матриц;\r\n3)Произведение матриц;\r\n4)Выход;");
+            int a = int.Parse(Console.ReadLine());
+            switch (a)
+            {
+                case 1:
+                    four.MultNum(arr);
+                    task4();
+                    break;
+                case 2:
+                    four.Sum(arr, arr);
+                    task4();
+                    break;
+                case 3:
+                    four.MultMat(arr, arr);
+                    task4();
+                    break;
+                case 4:
+                    break;
+            }
+        }
         static void task5()
         {
             string str = Console.ReadLine();
@@ -206,9 +311,12 @@ namespace _25._05._2023HW
                 Console.WriteLine($"{str} = {a / b}");
             }
         }
+        static void task6() { }
+        static void task7() { }
+
         static void Main(string[] args)
         {
-            task2();
+            task4();
             Console.ReadLine();
         }
     }
