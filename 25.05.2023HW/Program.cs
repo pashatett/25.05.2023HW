@@ -246,6 +246,139 @@ namespace _25._05._2023HW
             Console.WriteLine("Расшифрованное сообщение: {0}", s.Decrypt(encryptedText, secretKey));
 
         }
+        static void task1()
+        {
+            Random random = new Random();
+            int[] A = new int[5];
+            int[,] B = new int[3, 4];
+            int mult = 1;
+            int sumChetA = 0;
+            int sumNeChetB = 0;
+
+            for (int i = 0; i < 5; i++)
+            {
+                A[i] = Convert.ToInt32(Console.ReadLine());
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    B[i, j] = random.Next(20);
+                }
+            }
+
+            int[] b1 = new int[12];
+            int k = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    b1[k] = B[i, j];
+                    k++;
+                    mult *= B[i, j];
+                    if (j % 2 != 0) sumNeChetB += B[i, j];
+                }
+            }
+            for (int i = 0; i < A.Length; i++)
+            {
+                Console.Write(A[i] + " ");
+                mult *= A[i];
+                if (i % 2 == 0) sumChetA += A[i];
+            }
+
+            Console.WriteLine();
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    Console.Write(B[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+
+            Console.WriteLine((string.Join(" ", A.Intersect(b1))).Max());//максимальный общий
+            Console.WriteLine((string.Join(" ", A.Intersect(b1))).Min());//минимальный общий
+            Console.WriteLine(b1.Sum() + A.Sum());//сумма всех
+            Console.WriteLine(mult);//произведение
+            Console.WriteLine(sumChetA);//сумма четный А
+            Console.WriteLine(sumNeChetB);//сумма нечетных Б
+        }
+        static void task2()
+        {
+            int[,] arr = new int[5, 5];
+            int min = arr[0, 0], max = arr[0, 0];
+            int iMin = 0, jMin = 0, iMax = 0, jMax = 0;
+            int sum = 0;
+            Random rand = new Random();
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 5; j++)
+                {
+                    arr[i, j] = rand.Next(-100, 100);
+                }
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 5; j++)
+                {
+                    Console.Write(arr[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 5; j++)
+                {
+                    if (min > arr[i, j])
+                    {
+                        min = arr[i, j];
+                        iMin = i;
+                        jMin = j;
+                    }
+                    if (max < arr[i, j])
+                    {
+                        max = arr[i, j];
+                        iMax = i;
+                        jMax = j;
+                    }
+                }
+            }
+
+            for (int i = ((iMin < iMax) ? iMin : iMax); i < ((iMin > iMax) ? iMin : iMax); i++)
+            {
+                if (i == ((iMin > iMax) ? iMin : iMax) && i == ((iMin < iMax) ? iMin : iMax))
+                    for (int j = ((jMin < jMax) ? jMin : jMax); j < ((jMin > jMax) ? jMin : jMax); j++)
+                        sum += arr[i, j];
+                if (i == ((iMin < iMax) ? iMin : iMax))
+                    for (int j = ((jMin < jMax) ? jMin : jMax); j < 5; j++)
+                        sum += arr[i, j];
+                if (i == ((iMin > iMax) ? iMin : iMax))
+                    for (int j = 0; j < ((jMin > jMax) ? jMin : jMax); j++)
+                        sum += arr[i, j];
+                for (int j = 0; j < 5; j++)
+                    sum += arr[i, j];
+            }
+
+            Console.WriteLine($"Sum -> {sum}");
+            Console.WriteLine($"iMin -> {iMin}");
+            Console.WriteLine($"jMin -> {jMin}");
+            Console.WriteLine($"iMax -> {iMax}");
+            Console.WriteLine($"jMax -> {jMax}");
+        }
+        static void task3()
+        {
+            Cesar s = new Cesar();
+            Console.Write("Введите текст: ");
+            var message = Console.ReadLine();
+            Console.Write("Введите ключ: ");
+            var secretKey = Convert.ToInt32(Console.ReadLine());
+            var encryptedText = s.Encrypt(message, secretKey);
+            Console.WriteLine("Зашифрованное сообщение: {0}", encryptedText);
+            Console.WriteLine("Расшифрованное сообщение: {0}", s.Decrypt(encryptedText, secretKey));
+
+        }
         static void task4()
         {
             Random rnd = new Random();
@@ -311,9 +444,96 @@ namespace _25._05._2023HW
                 Console.WriteLine($"{str} = {a / b}");
             }
         }
-        static void task6() { }
-        static void task7() { }
+        static void task6()
+        {
+            Console.WriteLine("Введите первоначальную строку");
+            string str = Console.ReadLine();
 
+            string[] words = new string[str.Length];
+
+            if (str.IndexOf('.') != -1)
+            {
+                words = str.Split('.');
+                for (int i = 0; i < words.Length; i++)
+                {
+                    int k = 0;
+                    words[i] = words[i] + '.';
+                    char[] ss = words[i].ToCharArray();
+                    while (!char.IsLetter(ss[k]))
+                        k++;
+                    ss[k] = char.ToUpper(ss[k]);
+                    words[i] = new string(ss);
+                }
+                str = string.Join("", words);
+            }
+
+            if (str.IndexOf('!') != -1)
+            {
+                words = str.Split('!');
+                for (int i = 0; i < words.Length; i++)
+                {
+                    int k = 0;
+                    words[i] = words[i] + '!';
+                    char[] ss = words[i].ToCharArray();
+                    while (!char.IsLetter(ss[k]))
+                        k++;
+                    ss[k] = char.ToUpper(ss[k]);
+                    words[i] = new string(ss);
+                }
+                str = string.Join("", words);
+            }
+
+            if (str.IndexOf('?') != -1)
+            {
+                words = str.Split('?');
+                for (int i = 0; i < words.Length; i++)
+                {
+                    int k = 0;
+                    words[i] = words[i] + '?';
+                    char[] ss = words[i].ToCharArray();
+                    while (!char.IsLetter(ss[k]))
+                        k++;
+                    ss[k] = char.ToUpper(ss[k]);
+                    words[i] = new string(ss);
+                }
+            }
+
+            for (int i = 0; i < words.Length; i++)
+            {
+                Console.Write(words[i] + " ");
+            }
+        }
+        static void task7()
+        {
+            Console.WriteLine("Введите первоначальную строку");
+            string str = Console.ReadLine();
+
+            string[] words = new string[str.Length];
+            words = str.Split(' ');
+
+            Console.WriteLine("Введите строку для бана");
+            string strFind = Console.ReadLine();
+
+            for (int i = 0; i < words.Length; i++)
+            {
+                if (strFind + ':' == words[i])
+                    words[i] = new string('*', words[i].Length - 1) + ':';
+                if (strFind + ';' == words[i])
+                    words[i] = new string('*', words[i].Length - 1) + ';';
+                if (strFind + '.' == words[i])
+                    words[i] = new string('*', words[i].Length - 1) + '.';
+                if (strFind + ',' == words[i])
+                    words[i] = new string('*', words[i].Length - 1) + ',';
+                if (strFind + '!' == words[i])
+                    words[i] = new string('*', words[i].Length - 1) + '!';
+                if (strFind + '?' == words[i])
+                    words[i] = new string('*', words[i].Length - 1) + '?';
+                if (strFind == words[i])
+                    words[i] = new string('*', words[i].Length);
+            }
+            foreach (string word in words)
+                Console.Write(word + " ");
+        }
         static void Main(string[] args)
         {
             task4();
